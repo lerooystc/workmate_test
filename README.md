@@ -37,7 +37,7 @@
     ```
 * API:
 
-  Для Swagger добавьте в конец адресной строки "/docs".
+  Для Swagger: "/api/v1/schema/swagger-ui/".
 
 * Работа с приложением:
 
