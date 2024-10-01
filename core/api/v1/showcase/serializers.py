@@ -49,7 +49,7 @@ class ReadCatSerializer(ModelSerializer):
             "avg_rating",
         )
 
-    def get_avg_rating(self, obj):
+    def get_avg_rating(self, obj) -> float | None:
         ratings = obj.ratings.all()
         if ratings.count() > 0:
             return ratings.aggregate(avg=Avg("rating"))["avg"]

@@ -16,6 +16,7 @@ from rest_framework.mixins import ListModelMixin
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAdminUser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -27,9 +28,57 @@ from .serializers import ReadCatSerializer
 from .serializers import ReadRatingSerializer
 
 
-class BreedViewSet(ListModelMixin, GenericViewSet):
-    queryset = Breed.objects.order_by("name")
+@extend_schema_view(
+    create=extend_schema(
+        tags=["Порода"],
+        responses={
+            201: OpenApiResponse(
+                response=BreedSerializer, description="Создана порода."
+            ),
+            400: OpenApiResponse(
+                description="Не удалось создать породу. Инвалидные данные."
+            ),
+            401: OpenApiResponse(description="Нет прав доступа на создание породы."),
+        },
+    ),
+    update=extend_schema(
+        tags=["Порода"],
+        responses={
+            200: OpenApiResponse(
+                response=BreedSerializer, description="Изменены данные о породе."
+            ),
+            400: OpenApiResponse(
+                description="Не удалось создать породу. Инвалидные данные."
+            ),
+            401: OpenApiResponse(description="Нет прав доступа на изменение породы."),
+            404: OpenApiResponse(description="Порода не найдена."),
+        },
+    ),
+    destroy=extend_schema(
+        tags=["Порода"],
+        responses={
+            204: OpenApiResponse(description="Удалены данные о породы."),
+            401: OpenApiResponse(description="Нет прав доступа на удаление породы."),
+            404: OpenApiResponse(description="Порода не найдена."),
+        },
+    ),
+)
+class BreedViewSet(
+    ListModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+    GenericViewSet,
+):
+    queryset = Breed.objects.order_by("id")
     serializer_class = BreedSerializer
+    permission_classes = (AllowAny,)
+    http_method_names = ["get", "post", "put", "delete"]
+
+    def get_permissions(self):
+        if self.action in ("destroy", "update", "create"):
+            return [IsAdminUser()]
+        return super().get_permissions()
 
     @extend_schema(tags=["Порода"])
     def list(self, request, *args, **kwargs):
@@ -108,7 +157,7 @@ class CatViewSet(
     DestroyModelMixin,
     GenericViewSet,
 ):
-    queryset = Cat.objects.select_related("breed").order_by("name")
+    queryset = Cat.objects.select_related("breed").order_by("-id")
     serializer_class = CatSerializer
     permission_classes = (AllowAny,)
     filter_backends = (filters.DjangoFilterBackend,)

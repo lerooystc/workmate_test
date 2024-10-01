@@ -1,6 +1,7 @@
 import pytest
 from apps.showcase.models import Breed
 from apps.showcase.models import Cat
+from apps.showcase.models import Rating
 from django.contrib.auth import get_user_model
 from django.test import Client
 from rest_framework.test import APIClient
@@ -44,6 +45,23 @@ def different_user_client(test_user) -> Client:
 
 
 @pytest.fixture
+def admin_for_client():
+    user = UserModel.objects.create(username="client_user")
+    user.set_password("client_pass")
+    user.is_staff = True
+    user.save()
+    return user
+
+
+@pytest.fixture
+def admin_client(admin_for_client) -> Client:
+    # Built-in не работал (с JWT???), пришлось написать самому.
+    new_client = APIClient()
+    new_client.force_authenticate(user=admin_for_client)
+    return new_client
+
+
+@pytest.fixture
 def test_breed() -> Breed:
     breed = Breed.objects.create(name="Сибирская")
     return breed
@@ -80,3 +98,9 @@ def test_cats(user_for_client) -> list[Cat]:
         )
         cats.append(cat)
     return cats
+
+
+@pytest.fixture
+def test_rating(user_for_client, test_cat) -> Rating:
+    rating = Rating.objects.create(cat=test_cat, user=user_for_client, rating=4)
+    return rating
