@@ -1,5 +1,6 @@
 from apps.showcase.models import Breed
 from apps.showcase.models import Cat
+from apps.showcase.models import Rating
 from rest_framework.serializers import CharField
 from rest_framework.serializers import ModelSerializer
 
@@ -33,9 +34,26 @@ class ReadCatSerializer(ModelSerializer):
     class Meta:
         model = Cat
         fields = (
+            "id",
             "name",
             "age",
             "color",
             "description",
             "breed",
+        )
+
+
+class RatingSerializer(ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ("rating",)
+
+
+class ReadRatingSerializer(ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = (
+            "user",
+            "cat",
+            "rating",
         )
