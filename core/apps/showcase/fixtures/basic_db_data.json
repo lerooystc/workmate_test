@@ -1,0 +1,177 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$870000$GzqS2iPlaBP5EJ7NjVs5Nn$hCSRmgk3kZIV0IiMCh0H+kfsUymYTQ4nKnevFrF505A=",
+            "last_login": "2024-10-02T20:42:55.872Z",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2024-09-30T11:30:14.587Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$870000$sU7jY7beVtidcF0ysemDBl$JKqiTlPVbrkE/HzutgPPJVvhoEWj67akfTvJeoKifa4=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "testuser",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-09-30T15:12:33.939Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$870000$JFVuiY6wDsEgzizWsqRDKa$cTu4BqS6OQHQLdQGLKPsIE4KkPM3fr/pV176qP577FE=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "testuser2",
+            "first_name": "",
+            "last_name": "",
+            "email": "test@mail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2024-09-30T18:42:56Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "showcase.breed",
+        "pk": 1,
+        "fields": {
+            "name": "Siberian"
+        }
+    },
+    {
+        "model": "showcase.breed",
+        "pk": 2,
+        "fields": {
+            "name": "Persian"
+        }
+    },
+    {
+        "model": "showcase.breed",
+        "pk": 3,
+        "fields": {
+            "name": "Maine-Coon"
+        }
+    },
+    {
+        "model": "showcase.cat",
+        "pk": 1,
+        "fields": {
+            "owner": [
+                "testuser"
+            ],
+            "name": "Pushok",
+            "color": 3,
+            "age": 18,
+            "description": "Really cute kitty.",
+            "breed": 1
+        }
+    },
+    {
+        "model": "showcase.cat",
+        "pk": 2,
+        "fields": {
+            "owner": [
+                "testuser"
+            ],
+            "name": "Murka",
+            "color": 4,
+            "age": 28,
+            "description": "Really cute kitty.",
+            "breed": 2
+        }
+    },
+    {
+        "model": "showcase.cat",
+        "pk": 3,
+        "fields": {
+            "owner": [
+                "testuser2"
+            ],
+            "name": "Igor",
+            "color": 1,
+            "age": 42,
+            "description": "Igor.",
+            "breed": 3
+        }
+    },
+    {
+        "model": "showcase.cat",
+        "pk": 4,
+        "fields": {
+            "owner": [
+                "testuser2"
+            ],
+            "name": "Masha",
+            "color": 2,
+            "age": 13,
+            "description": "Masha.",
+            "breed": 1
+        }
+    },
+    {
+        "model": "showcase.rating",
+        "pk": 1,
+        "fields": {
+            "user": [
+                "testuser"
+            ],
+            "cat": 3,
+            "rating": 5
+        }
+    },
+    {
+        "model": "showcase.rating",
+        "pk": 2,
+        "fields": {
+            "user": [
+                "testuser2"
+            ],
+            "cat": 1,
+            "rating": 3
+        }
+    },
+    {
+        "model": "showcase.rating",
+        "pk": 3,
+        "fields": {
+            "user": [
+                "testuser2"
+            ],
+            "cat": 2,
+            "rating": 4
+        }
+    },
+    {
+        "model": "showcase.rating",
+        "pk": 4,
+        "fields": {
+            "user": [
+                "testuser"
+            ],
+            "cat": 4,
+            "rating": 1
+        }
+    }
+]
