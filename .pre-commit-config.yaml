@@ -1,10 +1,10 @@
-exclude: '.git, requirements.txt, README.md, .gitignore'
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
     hooks:
     -   id: check-yaml
     -   id: end-of-file-fixer
+        exclude: '.git, requirements.txt, README.md, .gitignore, Dockerfile, docker-compose.yml'
     -   id: trailing-whitespace
 
 -   repo: https://github.com/psf/black
