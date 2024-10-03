@@ -12,11 +12,11 @@ def test_successful_cat_creation(user_client, test_breed):
         "age": 18,
         "color": 3,
         "description": "Кошка.",
-        "breed": 1,
+        "breed": f"{test_breed.id}",
     }
     response = user_client.post(url, data=cat_data)
     assert response.status_code == status.HTTP_201_CREATED, print(response.json())
-    url = reverse("cats-detail", args=(1,))
+    url = reverse("cats-detail", args=(response.data["id"],))
     response = user_client.get(url)
     assert response.status_code == status.HTTP_200_OK, print(response.json())
     assert response.data["name"] == cat_data["name"]
@@ -31,7 +31,7 @@ def test_failed_cat_creation(user_client, test_breed):
         "age": 10000,
         "color": 3,
         "description": "Кошка.",
-        "breed": 2,
+        "breed": 200,
     }
     response = user_client.post(url, data=cat_data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST, print(response.json())
@@ -40,7 +40,7 @@ def test_failed_cat_creation(user_client, test_breed):
 @pytest.mark.django_db
 def test_successful_cat_update(user_client, test_cat):
     """Тестирует успешное изменение кота (через patch)."""
-    url = reverse("cats-detail", args=(1,))
+    url = reverse("cats-detail", args=(test_cat.id,))
     cat_data = {
         "age": 19,
     }
@@ -54,7 +54,7 @@ def test_successful_cat_update(user_client, test_cat):
 @pytest.mark.django_db
 def test_unsuccessful_cat_update(different_user_client, test_cat):
     """Тестирует ошибку при изменении кота не его владельцем (через patch)."""
-    url = reverse("cats-detail", args=(1,))
+    url = reverse("cats-detail", args=(test_cat.id,))
     cat_data = {
         "age": 19,
     }
@@ -71,6 +71,6 @@ def test_successful_cat_filtering(user_client, test_cats):
     После фильтрации должно остаться 2 кота.
     """
     url = reverse("cats-list")
-    response = user_client.get(url, query_params={"breed": 1})
+    response = user_client.get(url, query_params={"breed": test_cats[1].breed.id})
     assert response.status_code == status.HTTP_200_OK, print(response.data)
     assert len(response.data) == 2

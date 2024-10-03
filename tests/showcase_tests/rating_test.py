@@ -1,5 +1,4 @@
 import pytest
-from django.urls import reverse
 from rest_framework import status
 
 
@@ -10,10 +9,10 @@ def test_successful_rating_creation(user_client, test_cat):
     rating_data = {"rating": 5}
     response = user_client.post(url, data=rating_data)
     assert response.status_code == status.HTTP_201_CREATED, print(response.json())
-    url = reverse("cats-detail", args=(1,))
+    url = f"/api/v1/showcase/cats/{test_cat.id}/ratings/get_user_rating/"
     response = user_client.get(url)
     assert response.status_code == status.HTTP_200_OK, print(response.json())
-    assert response.data["avg_rating"] == rating_data["rating"]
+    assert response.data["rating"] == rating_data["rating"]
 
 
 @pytest.mark.django_db

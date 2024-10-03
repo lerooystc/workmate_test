@@ -14,26 +14,23 @@
   ```sh
   git clone https://github.com/lerooystc/workmate_test
   ```
-* Активация виртуального окружения и создание зависимостей:
-  ```sh
-  python -m venv venv
-  ./venv/Scripts/activate
-  cd backend
-  pip install -r requirements.txt
-  ```
-* В ./backend создайте ```.env``` и задайте значения переменных:
+* В ./backend создайте ```.env``` (или используйте .env.example) и задайте значения переменных:
     ```sh
-    DB_NAME =
-    DB_USER =
-    DB_USER_PASSWORD =
-    DB_HOST =
-    DB_PORT =
-    SECRET_KEY =
-    DJANGO_PORT =
+    DB_NAME = Название базы данных
+    DB_USER = Пользователь базы
+    DB_USER_PASSWORD = Пароль пользователя
+    DB_HOST = Хост (используйте 'db')
+    DB_PORT = Порт (изменить, если 5432 занят)
+    SECRET_KEY = Секретный ключ Django (сгенерировать можно с get_random_secret_key() из core.management.utils)
+    DJANGO_PORT = Порт, на котором будет расположено приложение
     ```
 * Запуск сервера:
     ```sh
     docker compose up
+    ```
+* Загрузить тестовые данные:
+    ```sh
+    docker exec НАЗВАНИЕ_КОНТЕЙНЕРА python core/manage.py loaddata basic_db_data
     ```
 * API:
 

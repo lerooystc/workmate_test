@@ -1,4 +1,6 @@
-sleep 15
+# Уменьшить после первой инициализации базы данных
+sleep 30
+
 
 cd core
 python manage.py makemigrations

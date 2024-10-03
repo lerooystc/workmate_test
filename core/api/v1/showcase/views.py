@@ -175,6 +175,16 @@ class CatViewSet(
             return [IsAuthenticated()]
         return super().get_permissions()
 
+    def create(self, request):
+        serializer = CatSerializer(data=request.data, context={"request": request})
+        if serializer.is_valid():
+            instance = serializer.save()
+            response_object = ReadCatSerializer(instance)
+            return Response(response_object.data, status=status.HTTP_201_CREATED)
+        return Response(
+            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+        )
+
 
 @extend_schema_view(
     list=extend_schema(
@@ -274,8 +284,9 @@ class RatingViewSet(
         cat = get_object_or_404(Cat, id=self.kwargs["cat_id"])
         serializer = RatingSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user, cat=cat)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            instance = serializer.save(user=request.user, cat=cat)
+            response_object = ReadRatingSerializer(instance)
+            return Response(response_object.data, status=status.HTTP_201_CREATED)
         return Response(
             {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
