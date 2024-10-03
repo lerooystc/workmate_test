@@ -9,5 +9,7 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY ./core ./core
+COPY ./tests ./tests
+COPY ./pyproject.toml .
 
 RUN adduser --disabled-password --gecos '' myuser
