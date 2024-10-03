@@ -42,3 +42,12 @@ def test_successful_user_ratings_retrieval(user_client, test_rating):
     response = user_client.get(url)
     assert response.status_code == status.HTTP_200_OK, print(response.json())
     assert response.data[0]["rating"] == test_rating.rating
+
+
+@pytest.mark.django_db
+def test_unique_constraint(user_client, test_cat, test_rating):
+    """Тестирует ошибку при добавлении оценки уже оцененному коту."""
+    url = f"/api/v1/showcase/cats/{test_cat.id}/ratings/"
+    rating_data = {"rating": 5}
+    response = user_client.post(url, data=rating_data)
+    assert response.status_code == status.HTTP_400_BAD_REQUEST, print(response.json())

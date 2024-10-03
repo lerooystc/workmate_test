@@ -34,7 +34,7 @@ def test_successful_refresh(client, test_user):
     refresh_data = {"refresh": response.data["refresh"]}
     response = client.post(refresh_url, data=refresh_data)
     assert response.status_code == status.HTTP_200_OK, print(response.json())
-    assert response.data["access"]
+    assert response.data.get("access") is not None
 
 
 @pytest.mark.django_db
@@ -44,7 +44,7 @@ def test_failed_refresh(client):
     refresh_data = {"refresh": "failed"}
     response = client.post(refresh_url, data=refresh_data)
     assert response.status_code == status.HTTP_401_UNAUTHORIZED, print(response.json())
-    assert response.data["code"]
+    assert response.data.get("code") is not None
 
 
 @pytest.mark.django_db
